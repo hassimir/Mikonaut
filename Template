@@ -3,8 +3,8 @@ layout: post
 title: "Template"
 date: 2026-04-04
 categories: [Template]
+camera: Seestar
+taken: 1/7/26
 ---
 
 ![A description of my photo]({{ site.baseurl }}/assets/images/my-photo.jpg)
-
-### The Story Behind the Photo
