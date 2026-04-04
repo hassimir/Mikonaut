@@ -3,6 +3,12 @@ layout: default
 title: Home
 ---
 
-# Testing main page
+# Latest Posts
 
-This page is being styled by the **Minimal** theme.
+<ul>
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url }}">{{ post.title }}</a> — {{ post.date | date_to_string }}
+    </li>
+  {% endfor %}
+</ul>
