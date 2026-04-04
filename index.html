@@ -9,9 +9,9 @@ title: Home
   <article style="margin-bottom: 80px; border-bottom: 1px solid #eee; padding-bottom: 40px;">
     <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
     <p style="color: #666; font-size: 0.9em;">{{ post.date | date: "%B %d, %Y" }}</p>
-
     <div class="entry">
       {{ post.content }}
+      <p style="color: #666; font-size: 0.9em;">{% if post.camera %} {{ post.camera }} | {% endif %}</p>
     </div>
   </article>
 {% endfor %}
