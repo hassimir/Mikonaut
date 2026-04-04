@@ -8,6 +8,6 @@ categories: [Astrophotography]
 ![Orion Nebula]({{ site.baseurl }}/assets/images/orion.jpg)
 
 
-Metadata:
-Taken: 1/7/26 
-Camera: Seestar
+**Metadata:**
+**Taken:** 1/7/26 
+**Camera:** Seestar
