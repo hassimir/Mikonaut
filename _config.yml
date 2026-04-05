@@ -1,6 +1,7 @@
 title: Mikonaut
 description: Space pics when I can stay up late, flower pics when the sun is shining.
-remote_theme: pages-themes/midnight@v0.2.0
+sass:
+  style: compressed
 plugins:
 - jekyll-remote-theme
 url: "https://hassimir.github.io" 
