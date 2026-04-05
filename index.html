@@ -3,25 +3,45 @@ layout: null
 title: Home
 ---
 
-Pics and sometimes long form posts about life and the view out my windows. <br>
-Light polution Brightness: 4.81mcd/m2 <br>
-Elevation: 259M <br>
-Bortle Class: 8-9 <br><br>
------
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }}</title>
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
-<div class="container">
-  <h1>{{ page.title }}</h1>
-{% for post in site.posts %}
-  <article style="margin-bottom: 80px; border-bottom: 1px solid #eee; padding-bottom: 40px;">
-    <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-    <p style="color: #666; font-size: 0.9em;">{{ post.date | date: "%B %d, %Y" }}</p>
-    <div class="entry">
-      {{ post.content }}
-      <p style="color: #666; font-size: 0.9em;">Camera: {% if post.camera %} {{ post.camera }}  {% endif %}</br>Image Taken: {% if post.taken %} {{ post.taken }}  {% endif %}</p>
-    </div>
-  </article>
-{% endfor %}
-</div>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>My Photography Journey</h1>
+      <p>Pics and sometimes long form posts about life and the view out my windows.</p>
+      <div class="metadata">
+        Light pollution Brightness: 4.81mcd/m2<br>
+        Elevation: 259M<br>
+        Bortle Class: 8-9
+      </div>
+    </header>
+
+    <hr>
+
+    {% for post in site.posts %}
+      <article>
+        <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+        <div class="metadata">{{ post.date | date: "%B %d, %Y" }}</div>
+        
+        <div class="entry">
+          {{ post.content }}
+        </div>
+      </article>
+      <hr>
+    {% endfor %}
+
+    <footer>
+      <p>© {{ "now" | date: "%Y" }}</p>
+    </footer>
+  </div>
+
+</body>
+</html>
