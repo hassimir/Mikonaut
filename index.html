@@ -32,8 +32,8 @@ title: Home
         <div class="metadata">{{ post.date | date: "%B %d, %Y" }}</div>
         <div class="entry">
           {{ post.content }} <br>
-          {% if page.taken %}  {{ page.taken | Image Taken: "%B %d, %Y" }} {% endif %}<br>
-          {% if page.camera %} | Camera: {{ page.camera }} {% endif %}<br>
+          {% if post.taken %}  {{ post.taken | Image Taken: "%B %d, %Y" }} {% endif %}<br>
+          {% if post.camera %} | Camera: {{ post.camera }} {% endif %}<br>
         </div>
       </article>
       <hr>
