@@ -5,6 +5,7 @@ sass:
 plugins:
 - jekyll-remote-theme
 - jekyll-paginate
+- jekyll-favicon
 url: "https://hassimir.github.io" 
 baseurl: ""
 paginate: 20
