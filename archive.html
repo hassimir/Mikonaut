@@ -1,0 +1,101 @@
+---
+layout: null
+title: Archive
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} — {{ site.title }}</title>
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a> — Archive</h1>
+      <p>Browse posts by date, topic, or tag.</p>
+    </header>
+
+    <hr>
+
+    {% assign posts_by_year = site.posts | sort: "date" | reverse | group_by_exp: "post", "post.date | date: '%Y'" %}
+
+    <nav class="archive-toc" aria-label="Archive sections">
+      <h2 class="sidebar-heading">Jump to</h2>
+      <ul>
+        <li><a href="#by-date">By date</a></li>
+        <li><a href="#by-topic">By topic</a></li>
+        {% if site.tags.size > 0 %}
+        <li><a href="#by-tag">By tag</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+
+    <section id="by-date" class="archive-section">
+      <h2>By date</h2>
+      {% for year_group in posts_by_year %}
+        <section id="year-{{ year_group.name }}" class="archive-year">
+          <h3>{{ year_group.name }}</h3>
+          {% assign months = year_group.items | group_by_exp: "post", "post.date | date: '%Y-%m'" | sort: "name" | reverse %}
+          {% for month_group in months %}
+            <div id="ym-{{ month_group.name }}" class="archive-month">
+              <h4>{{ month_group.items.first.date | date: "%B %Y" }}</h4>
+              <ul>
+                {% assign month_posts = month_group.items | sort: "date" | reverse %}
+                {% for post in month_posts %}
+                  <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a> <span class="metadata">({{ post.date | date: "%b %d" }})</span></li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endfor %}
+        </section>
+      {% endfor %}
+    </section>
+
+    <hr>
+
+    <section id="by-topic" class="archive-section">
+      <h2>By topic</h2>
+      <p class="metadata">Topics come from each post’s <code>categories</code> in front matter.</p>
+      {% for category in site.categories %}
+        <section id="cat-{{ category[0] | slugify }}" class="archive-topic">
+          <h3>{{ category[0] }}</h3>
+          <ul>
+            {% assign cat_posts = category[1] | sort: "date" | reverse %}
+            {% for post in cat_posts %}
+              <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a> <span class="metadata">({{ post.date | date: "%Y-%m-%d" }})</span></li>
+            {% endfor %}
+          </ul>
+        </section>
+      {% endfor %}
+    </section>
+
+    {% if site.tags.size > 0 %}
+    <hr>
+
+    <section id="by-tag" class="archive-section">
+      <h2>By tag</h2>
+      {% for tag in site.tags %}
+        <section id="tag-{{ tag[0] | slugify }}" class="archive-topic">
+          <h3>{{ tag[0] }}</h3>
+          <ul>
+            {% assign tag_posts = tag[1] | sort: "date" | reverse %}
+            {% for post in tag_posts %}
+              <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a> <span class="metadata">({{ post.date | date: "%Y-%m-%d" }})</span></li>
+            {% endfor %}
+          </ul>
+        </section>
+      {% endfor %}
+    </section>
+    {% endif %}
+
+    <footer>
+      <p>© {{ "now" | date: "%Y" }}</p>
+    </footer>
+  </div>
+
+</body>
+</html>

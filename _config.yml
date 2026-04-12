@@ -4,5 +4,8 @@ sass:
   style: compressed
 plugins:
 - jekyll-remote-theme
+- jekyll-paginate
 url: "https://hassimir.github.io" 
 baseurl: ""
+paginate: 20
+paginate_path: "/page:num/"
