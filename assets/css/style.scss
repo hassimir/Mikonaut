@@ -18,7 +18,7 @@ body {
 
 .blog-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 240px;
+  grid-template-columns: minmax(200px, 240px) minmax(0, 1fr);
   gap: 32px 40px;
   align-items: start;
 }
