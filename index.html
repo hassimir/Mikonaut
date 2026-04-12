@@ -21,25 +21,108 @@ title: Mikonaut
         Light pollution Brightness: 4.81mcd/m2<br>
         Elevation: 259M<br>
         Bortle Class: 8-9 <br>
-      <a href="https://en.wikipedia.org/wiki/Bortle_scale">Bortle Scale Reference</a><br>
-      <a href="https://www.youtube.com/watch?v=l59ItK6d-wQ">BORTTTTLLLLESSSSSS</a>
+      <a href="https://en.wikipedia.org/wiki/Bortle_scale" target="_blank" rel="noopener noreferrer">Bortle Scale Reference</a><br>
+      <a href="https://www.youtube.com/watch?v=l59ItK6d-wQ" target="_blank" rel="noopener noreferrer">BORTTTTLLLLESSSSSS</a>
       </div>
     </header>
 
     <hr>
 
-    {% for post in site.posts %}
-      <article>
-        <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-        <div class="metadata">{{ post.date | date: "%B %d, %Y" }}</div>
-        <div class="entry">
-          {{ post.content }} <br>
-          {% if post.taken %} Taken: {{ post.taken  }} {% endif %}<br>
-          {% if post.camera %} Camera: {{ post.camera }} {% endif %}<br>
-        </div>
-      </article>
-      <hr>
-    {% endfor %}
+    {% assign posts_by_year = site.posts | sort: "date" | reverse | group_by_exp: "post", "post.date | date: '%Y'" %}
+
+    <div class="blog-layout">
+      <aside class="sidebar" aria-label="Browse posts">
+        <nav class="sidebar-nav">
+          <h2 class="sidebar-heading">Browse</h2>
+          <ul class="sidebar-list">
+            <li><a href="{{ '/' | relative_url }}">Latest posts</a> <span class="metadata">(paginated)</span></li>
+            <li><a href="{{ '/archive.html' | relative_url }}">Full archive</a></li>
+          </ul>
+
+          <h3 class="sidebar-subheading">By year</h3>
+          <ul class="sidebar-list">
+            {% for year_group in posts_by_year %}
+              <li><a href="{{ '/archive.html' | relative_url }}#year-{{ year_group.name }}">{{ year_group.name }}</a></li>
+            {% endfor %}
+          </ul>
+
+          <h3 class="sidebar-subheading">By month</h3>
+          {% for year_group in posts_by_year %}
+            <div class="sidebar-year-block">
+              <span class="sidebar-year-label">{{ year_group.name }}</span>
+              {% assign by_month = year_group.items | group_by_exp: "post", "post.date | date: '%Y-%m'" | sort: "name" | reverse %}
+              <ul class="sidebar-list sidebar-month-list">
+                {% for month_group in by_month %}
+                  <li>
+                    <a href="{{ '/archive.html' | relative_url }}#ym-{{ month_group.name }}">{{ month_group.items.first.date | date: "%B" }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endfor %}
+
+          <h3 class="sidebar-subheading">Topics</h3>
+          <p class="sidebar-note metadata">From post <code>categories</code>.</p>
+          <ul class="sidebar-list">
+            {% for category in site.categories %}
+              <li>
+                <a href="{{ '/archive.html' | relative_url }}#cat-{{ category[0] | slugify }}">{{ category[0] }}</a>
+                <span class="metadata">({{ category[1] | size }})</span>
+              </li>
+            {% endfor %}
+          </ul>
+
+          {% if site.tags.size > 0 %}
+          <h3 class="sidebar-subheading">Tags</h3>
+          <ul class="sidebar-list">
+            {% for tag in site.tags %}
+              <li>
+                <a href="{{ '/archive.html' | relative_url }}#tag-{{ tag[0] | slugify }}">{{ tag[0] }}</a>
+                <span class="metadata">({{ tag[1] | size }})</span>
+              </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </nav>
+      </aside>
+
+      <main class="blog-main">
+        {% for post in paginator.posts %}
+          <article>
+            <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+            <div class="metadata">{{ post.date | date: "%B %d, %Y" }}</div>
+            <div class="entry">
+              {{ post.content }} <br>
+              {% if post.taken %} Taken: {{ post.taken  }} {% endif %}<br>
+              {% if post.camera %} Camera: {{ post.camera }} {% endif %}<br>
+            </div>
+          </article>
+          <hr>
+        {% endfor %}
+
+        <nav class="pagination" aria-label="Post pagination">
+          {% if paginator.total_pages > 1 %}
+            <div class="pagination-inner">
+              {% if paginator.previous_page %}
+                <a class="pagination-link" href="{{ paginator.previous_page_path | relative_url }}">Newer posts</a>
+              {% else %}
+                <span class="pagination-muted">Newer posts</span>
+              {% endif %}
+
+              <span class="pagination-status">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
+
+              {% if paginator.next_page %}
+                <a class="pagination-link" href="{{ paginator.next_page_path | relative_url }}">Older posts</a>
+              {% else %}
+                <span class="pagination-muted">Older posts</span>
+              {% endif %}
+            </div>
+          {% else %}
+            <p class="pagination-status metadata">Showing all {{ paginator.total_posts }} post{% if paginator.total_posts != 1 %}s{% endif %}.</p>
+          {% endif %}
+        </nav>
+      </main>
+    </div>
 
     <footer>
       <p>© {{ "now" | date: "%Y" }}</p>
